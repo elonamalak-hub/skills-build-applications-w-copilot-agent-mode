@@ -1,3 +1,4 @@
+
 from djongo import models
 
 class User(models.Model):
@@ -7,9 +8,16 @@ class User(models.Model):
     class Meta:
         db_table = 'users'
 
+
+# Embedded model for Team members
+class Member(models.Model):
+    user_id = models.ObjectIdField()
+    class Meta:
+        abstract = True
+
 class Team(models.Model):
     name = models.CharField(max_length=100)
-    members = models.ArrayField(model_container=models.ObjectIdField(), blank=True, null=True)
+    members = models.ArrayField(model_container=Member, blank=True, null=True)
     class Meta:
         db_table = 'teams'
 
